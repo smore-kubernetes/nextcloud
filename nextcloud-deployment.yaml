@@ -1,0 +1,48 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nextcloud
+  name: nextcloud
+  namespace: nextcloud
+spec:
+  selector:
+    matchLabels:
+      app: nextcloud
+  template:
+    metadata:
+      labels:
+        app: nextcloud
+    spec:
+      nodeName: k3os-6802
+      containers:
+        - name: nextcloud
+          image: nextcloud
+          imagePullPolicy: IfNotPresent
+          #          env:
+          #  - name: GF_SERVER_ROOT_URL
+          #    value: "http://k3os-6802/grafana/"
+          #  - name: GF_SERVER_SERVE_FROM_SUB_PATH
+          #    value: "true"
+          #  - name: GF_SERVER_LOG_MODE
+          #    value: "console file"
+          #  - name: GF_LOG_LEVEL
+          #    value: "debug"
+          ports:
+            - containerPort: 80
+              name: http-ncloud
+              protocol: TCP
+            - containerPort: 8080
+              name: http-nc
+              protocol: TCP
+            - containerPort: 8443
+              name: https-nc
+              protocol: TCP
+              #          volumeMounts:
+              #            - mountPath: /var/lib/grafana
+              #              name: grafana-pv
+              #      volumes:
+              #        - name: grafana-pv
+              #          persistentVolumeClaim:
+              #            claimName: grafana-pvc
